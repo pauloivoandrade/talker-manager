@@ -1,4 +1,5 @@
 const express = require('express');
+const crypto = require('crypto');
 
 const { getTalkers } = require('./functions/getFunctions');
 const { idTalker } = require('./functions/idFilter');
@@ -32,4 +33,13 @@ app.get('/talker/:id', async (request, response) => {
       .json({ message: 'Pessoa palestrante não encontrada' });
   }
   return response.status(200).json(talkersIds);
+});
+
+app.post('/login', async (request, response) => {
+  const { email, password } = request.body;
+  if (email || password) {
+    const token = crypto.randomBytes(8).toString('hex');
+    return response.status(200).json({ token });
+  }
+  return response.status(404).json({ message: 'Credenciais inválidas' });
 });

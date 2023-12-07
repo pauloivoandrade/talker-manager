@@ -3,6 +3,7 @@ const crypto = require('crypto');
 
 const { getTalkers } = require('./functions/getFunctions');
 const { idTalker } = require('./functions/idFilter');
+const { isEmailValid } = require('./functions/validEmail');
 
 const app = express();
 app.use(express.json());
@@ -37,9 +38,16 @@ app.get('/talker/:id', async (request, response) => {
 
 app.post('/login', async (request, response) => {
   const { email, password } = request.body;
-  if (email || password) {
-    const token = crypto.randomBytes(8).toString('hex');
-    return response.status(200).json({ token });
+  if (!email) {
+    return response.status(400).json({ message: 'O campo "email" é obrigatório' });
+  } if (!isEmailValid(email)) {
+    return response.status(400)
+      .json({ message: 'O "email" deve ter o formato "email@email.com"' });
+  } if (!password) {
+    return response.status(400).json({ message: 'O campo "password" é obrigatório' });
+  } if (password.length < 6) {
+    return response.status(400).json({ message: 'O "password" deve ter pelo menos 6 caracteres' });
   }
-  return response.status(404).json({ message: 'Credenciais inválidas' });
+  const token = crypto.randomBytes(8).toString('hex');
+  return response.status(200).json({ token });
 });

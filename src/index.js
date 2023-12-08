@@ -3,7 +3,13 @@ const crypto = require('crypto');
 
 const { getTalkers } = require('./functions/getFunctions');
 const { idTalker } = require('./functions/idFilter');
-const { isEmailValid } = require('./functions/validEmail');
+const { isEmailValid } = require('./functions/validations/validEmail');
+const { talkerRegister } = require('./middlewares/talkerRegister');
+
+const { ageValidation } = require('./functions/validations/validAge');
+const { validName } = require('./functions/validations/validName');
+const { tokenValidation } = require('./functions/validations/validToken');
+const { talkValidation } = require('./functions/validations/validTalker');
 
 const app = express();
 app.use(express.json());
@@ -51,3 +57,11 @@ app.post('/login', async (request, response) => {
   const token = crypto.randomBytes(8).toString('hex');
   return response.status(200).json({ token });
 });
+
+app.post('/talker',
+  tokenValidation,
+  validName,
+  ageValidation,
+  talkValidation,
+  talkerRegister,
+  async () => {});

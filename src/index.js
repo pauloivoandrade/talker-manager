@@ -12,6 +12,7 @@ const { tokenValidation } = require('./functions/validations/validToken');
 const { talkValidation } = require('./functions/validations/validTalker');
 const { talkerPut } = require('./middlewares/talkerPut');
 const { talkerDelete } = require('./middlewares/talkerDelete');
+const { talkerSearch } = require('./middlewares/talkerSearch');
 
 const app = express();
 app.use(express.json());
@@ -28,6 +29,9 @@ app.listen(PORT, () => {
   console.log('Online');
 });
 
+app.get('/talker/search',
+  tokenValidation,
+  talkerSearch);
 app.get('/talker', async (_request, response) => {
   const talkers = await getTalkers();
   return response.status(200).json(talkers);

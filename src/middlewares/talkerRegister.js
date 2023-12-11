@@ -8,9 +8,9 @@ const talkerRegister = async (request, response) => {
   const newId = { id: talkersDatabase.length + 1 };
   const newTalker = Object.assign(newId, talkerRequest);
   talkersDatabase.push(newTalker);
-  const newDatabase = JSON.stringify(talkersDatabase);
+  // const newDatabase = JSON(talkersDatabase);
 
-  await writeTalker(newDatabase);
+  await writeTalker(talkersDatabase);
   return response.status(201).json(newTalker).end();
 };
     

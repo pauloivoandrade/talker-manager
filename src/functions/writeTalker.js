@@ -3,7 +3,7 @@ const { TALKER_API } = require('./getFunctions');
 
 const writeTalker = async (newDatabase) => {
   try {
-    await fs.writeFile(TALKER_API, newDatabase);
+    await fs.writeFile(TALKER_API, JSON.stringify(newDatabase));
   } catch (error) {
     return ({ message: error.message });
   }

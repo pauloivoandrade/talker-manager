@@ -1,15 +1,15 @@
-const fs = require('fs').promises;
+const fs = require('fs');
 const path = require('path');
 
 const TALKER_API = path.resolve('src', 'talker.json');
 
 async function getTalkers() {
   try {
-    const talkersData = await fs.readFile(TALKER_API, 'utf8');
+    const talkersData = fs.readFileSync(TALKER_API, 'utf-8');
     const data = JSON.parse(talkersData);
     return data;
   } catch (error) {
-    return { message: error.message };
+    return [];
   }
 }
 

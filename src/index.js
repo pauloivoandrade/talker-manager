@@ -10,6 +10,7 @@ const { ageValidation } = require('./functions/validations/validAge');
 const { validName } = require('./functions/validations/validName');
 const { tokenValidation } = require('./functions/validations/validToken');
 const { talkValidation } = require('./functions/validations/validTalker');
+const { talkerPut } = require('./middlewares/talkerPut');
 
 const app = express();
 app.use(express.json());
@@ -63,5 +64,11 @@ app.post('/talker',
   validName,
   ageValidation,
   talkValidation,
-  talkerRegister,
-  async () => {});
+  talkerRegister);
+
+app.put('/talker/:id',
+  tokenValidation,
+  validName,
+  ageValidation,
+  talkValidation,
+  talkerPut);

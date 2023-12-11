@@ -11,6 +11,7 @@ const { validName } = require('./functions/validations/validName');
 const { tokenValidation } = require('./functions/validations/validToken');
 const { talkValidation } = require('./functions/validations/validTalker');
 const { talkerPut } = require('./middlewares/talkerPut');
+const { talkerDelete } = require('./middlewares/talkerDelete');
 
 const app = express();
 app.use(express.json());
@@ -72,3 +73,7 @@ app.put('/talker/:id',
   ageValidation,
   talkValidation,
   talkerPut);
+
+app.delete('/talker/:id',
+  tokenValidation,
+  talkerDelete);
